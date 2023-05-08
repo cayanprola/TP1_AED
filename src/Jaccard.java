@@ -1,23 +1,20 @@
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Jaccard extends Distancias {
-    public static double calculate(ArrayList<HashMap<Integer, String>> list) {
-        // Convert the input list to a set of hash maps
-        HashSet<HashMap<Integer, String>> setHash = new HashSet<>(list);
+    public static double calculate(String header1, String header2, ArrayList<HashMap<String, List<String>>> list) {
+        List<String> map1 = list.get(0).get(header1);
+        List<String> map2 = list.get(1).get(header2);
 
-        // Calculate the size of the intersection and union of the set
-        int intersectionSize = 0;
-        for (HashMap<Integer, String> map : setHash) {
-            // Access the values of the hash map using the get() method
-            if (map.get(0) != null && map.get(1) != null) {
-                intersectionSize++;
-            }
-        }
-        int unionSize = setHash.size() * 2 - intersectionSize;
+        Set<String> intersection = new HashSet<>(map1);
+        intersection.retainAll(map2);
 
-        // Calculate the Jaccard similarity and return the result
-        double similarity = (double) intersectionSize / unionSize;
-        return similarity;
+        System.out.println(map1);
+        System.out.println(map2);
+
+        Set<String> union = new HashSet<>(map1);
+        union.addAll(map2);
+
+        return (double) intersection.size() / union.size();
     }
-
 }
