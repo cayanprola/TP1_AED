@@ -11,7 +11,7 @@ public class Levenshtein extends Distancias {
                 double similarity = (str1.length() + str2.length() - distance) / (str1.length() + str2.length());
                 // double similarity = 1 - ((double) distance / Math.max(str1.length(), str2.length()));
 
-                System.out.println(str1 + ":" + str2 + " disntance: " + similarity);
+                System.out.println(str1 + ":" + str2 + " distance: " + similarity);
             }
         }
     }

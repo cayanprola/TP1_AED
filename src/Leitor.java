@@ -12,8 +12,8 @@ public class Leitor<K, V> extends HashMap<K, V> {
 
         try {
             //parsing a CSV file into BufferedReader
-            File file1 = new File("./files/countries/population.csv");
-            File file2 = new File("./files/countries/gpt.csv");
+            File file1 = new File("./files/names/names1.csv");
+            File file2 = new File("./files/names/names2.csv");
 
             //BufferedReader name1 = new BufferedReader(new FileReader("./files/names/names1.csv"));
             //BufferedReader name2 = new BufferedReader(new FileReader("./files/names/names2.csv"));

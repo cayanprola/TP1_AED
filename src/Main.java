@@ -8,8 +8,10 @@ public class Main<K, V> extends HashMap<K, V> {
         l.lerFile(myList);
         Levenshtein lev = new Levenshtein();
         Jaccard jac = new Jaccard();
-        lev.calculate(myList, "country", "country");
-        // System.out.println(jac.calculate("Booking.com", "Expedia", myList));
+        Hamming ham = new Hamming();
+        ham.hammingSimilarity("location", "Location", myList);
+//        lev.calculate(myList, "country", "country");
+// System.out.println(jac.calculate("Booking.com", "Expedia", myList));
 
     }
 }
