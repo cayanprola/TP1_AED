@@ -9,7 +9,7 @@ public class Main<K, V> extends HashMap<K, V> {
         Levenshtein lev = new Levenshtein();
         Jaccard jac = new Jaccard();
         Hamming ham = new Hamming();
-        ham.hammingSimilarity("location", "Location", myList);
+        ham.calculate("name", "Person Name", myList);
 //        lev.calculate(myList, "country", "country");
 // System.out.println(jac.calculate("Booking.com", "Expedia", myList));
 
