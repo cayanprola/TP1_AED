@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -7,7 +6,7 @@ public class Levenshtein extends Distancias {
     public void calculate(String header1, String header2, ArrayList<HashMap<String, List<String>>> list) {
         for (String str1 : list.get(0).get(header1)) {
             for (String str2 : list.get(1).get(header2)) {
-                double distance = this.distance(str1, str2);
+                double distance = this.calcDistance(str1, str2);
                 double similarity = (str1.length() + str2.length() - distance) / (str1.length() + str2.length());
                 // double similarity = 1 - ((double) distance / Math.max(str1.length(), str2.length()));
 
@@ -16,7 +15,7 @@ public class Levenshtein extends Distancias {
         }
     }
 
-    public int distance(String s1, String s2) {
+    public int calcDistance(String s1, String s2) {
         int[][] distance = new int[s1.length() + 1][s2.length() + 1];
 
         for (int i = 0; i <= s1.length(); i++) {
