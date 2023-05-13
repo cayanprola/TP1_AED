@@ -1,6 +1,5 @@
-public class Distancias {
+public abstract class Distancias {
 
-    public static double calculate() {
-        return 0;
+    public static void calculate() {
     }
 }

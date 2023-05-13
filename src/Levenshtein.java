@@ -4,19 +4,19 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Levenshtein extends Distancias {
-    public void calculate(ArrayList<HashMap<String, List<String>>> arrMap, String header1, String header2) {
-        for (String str1 : arrMap.get(0).get(header1)) {
-            for (String str2 : arrMap.get(1).get(header2)) {
-                double distance = this.computeLevenshteinDistance(str1, str2);
+    public void calculate(String header1, String header2, ArrayList<HashMap<String, List<String>>> list) {
+        for (String str1 : list.get(0).get(header1)) {
+            for (String str2 : list.get(1).get(header2)) {
+                double distance = this.distance(str1, str2);
                 double similarity = (str1.length() + str2.length() - distance) / (str1.length() + str2.length());
                 // double similarity = 1 - ((double) distance / Math.max(str1.length(), str2.length()));
 
-                System.out.println(str1 + ":" + str2 + " distance: " + similarity);
+                System.out.println(str1 + ":" + str2 + " similarity: " + similarity);
             }
         }
     }
 
-    public int computeLevenshteinDistance(String s1, String s2) {
+    public int distance(String s1, String s2) {
         int[][] distance = new int[s1.length() + 1][s2.length() + 1];
 
         for (int i = 0; i <= s1.length(); i++) {
@@ -39,9 +39,9 @@ public class Levenshtein extends Distancias {
 
     }
 
-    public static int min(int... numbers) {
-        return Arrays.stream(numbers)
-                .min().orElse(Integer.MAX_VALUE);
-    }
+//    public static int min(int... numbers) {
+//        return Arrays.stream(numbers)
+//                .min().orElse(Integer.MAX_VALUE);
+//    }
 
 }

@@ -3,20 +3,14 @@ import java.lang.reflect.AccessibleObject;
 import java.util.*;
 
 public class Leitor<K, V> extends HashMap<K, V> {
-    public void lerFile(ArrayList<HashMap<String, List<String>>> arrMap) {
+    public void lerFile(ArrayList<HashMap<String, List<String>>> arrMap, String filename1, String filename2) {
 
-        String line;
-        String splitBy = ",";
         HashMap<Integer, String> data1 = new HashMap<>();
         HashMap<Integer, String> data2 = new HashMap<>();
 
         try {
-            //parsing a CSV file into BufferedReader
-            File file1 = new File("./files/names/names1.csv");
-            File file2 = new File("./files/names/names2.csv");
-
-            //BufferedReader name1 = new BufferedReader(new FileReader("./files/names/names1.csv"));
-            //BufferedReader name2 = new BufferedReader(new FileReader("./files/names/names2.csv"));
+            File file1 = new File(filename1);
+            File file2 = new File(filename2);
 
             arrMap.add(this.parseFile(file1));
             arrMap.add(this.parseFile(file2));
@@ -25,7 +19,7 @@ public class Leitor<K, V> extends HashMap<K, V> {
         }
     }
 
-    private HashMap<String, List<String>>parseFile (File filename) throws FileNotFoundException {
+    private HashMap<String, List<String>> parseFile(File filename) throws FileNotFoundException {
         HashMap<String, List<String>> map = new HashMap<>();
         boolean start = true;
         int headersAmount = 0;
