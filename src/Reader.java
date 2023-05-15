@@ -1,25 +1,22 @@
 import java.io.*;
-import java.lang.reflect.AccessibleObject;
 import java.util.*;
 
-public class Leitor<K, V> extends HashMap<K, V> {
-    public void lerFile(ArrayList<HashMap<String, List<String>>> arrMap, String filename1, String filename2) {
+public class Reader<K, V> extends HashMap<K, V> {
+    public void readFile(ArrayList<HashMap<String, List<String>>> myList, String filename1, String filename2) {
 
-        HashMap<Integer, String> data1 = new HashMap<>();
-        HashMap<Integer, String> data2 = new HashMap<>();
-
+        //Read both files and parse them to the maps list
         try {
             File file1 = new File(filename1);
             File file2 = new File(filename2);
 
-            arrMap.add(this.parseFile(file1));
-            arrMap.add(this.parseFile(file2));
+            myList.add(this.parseFile(file1));
+            myList.add(this.parseFile(file2));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private HashMap<String, List<String>> parseFile(File filename) throws FileNotFoundException {
+    public HashMap<String, List<String>> parseFile(File filename) throws FileNotFoundException {
         HashMap<String, List<String>> map = new HashMap<>();
         boolean start = true;
         int headersAmount = 0;

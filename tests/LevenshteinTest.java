@@ -2,7 +2,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import java.util.*;
 
-public class TestLevenshtein {
+public class LevenshteinTest
+{
     @Test
     public void testCalculate() {
         Levenshtein levenshtein = new Levenshtein();

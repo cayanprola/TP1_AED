@@ -1,83 +1,66 @@
 import java.util.*;
 
-public class Cosine extends Distancias {
+public class Cosine extends Metrics {
 
-    public static double getCosineSimilarity(String str1, String str2) {
-        Map<String, Integer> map1 = getTermFrequencyMap(str1);
-        Map<String, Integer> map2 = getTermFrequencyMap(str2);
-
-        Set<String> union = new HashSet<>(map1.keySet());
-        union.addAll(map2.keySet());
-
-        double dotProduct = 0.0;
-        double mag1 = 0.0;
-        double mag2 = 0.0;
-
-        for (String term : union) {
-            int count1 = map1.containsKey(term) ? map1.get(term) : 0;
-            int count2 = map2.containsKey(term) ? map2.get(term) : 0;
-
-            dotProduct += count1 * count2;
-            mag1 += count1 * count1;
-            mag2 += count2 * count2;
-        }
-
-        if (mag1 == 0.0 || mag2 == 0.0) {
-            return 0.0;
-        } else {
-            return dotProduct / (Math.sqrt(mag1) * Math.sqrt(mag2));
-        }
-    }
-
-    public static String getTextFromMap(String header, ArrayList<HashMap<String, List<String>>> list) {
-        for (HashMap<String, List<String>> map : list) {
-            if (map.containsKey(header)) {
-                List<String> textList = map.get(header);
-                StringBuilder sb = new StringBuilder();
-                for (String text : textList) {
-                    sb.append(text).append(" ");
-                }
-                return sb.toString().trim();
-            }
-        }
-        return "";
-    }
-
-    private static Map<String, Integer> getTermFrequencyMap(String str) {
-        Map<String, Integer> map = new HashMap<>();
-
-        String[] terms = str.toLowerCase().split("\\W+");
-
-        for (String term : terms) {
-            if (map.containsKey(term)) {
-                map.put(term, map.get(term) + 1);
+    //We need to convert strings to number vectors so we can calculate them
+    public static HashMap<String, Integer> convertListToVector(List<String> list) {
+        HashMap<String, Integer> vector = new HashMap<String, Integer>();
+        for (String s : list) {
+            Integer count = vector.get(s);
+            if (count == null) {
+                vector.put(s, 1);
             } else {
-                map.put(term, 1);
+                vector.put(s, count + 1);
             }
         }
-        return map;
+        return vector;
     }
 
-    public static void calculate(String header1, String header2, ArrayList<HashMap<String, List<String>>> list) {
-        String str1 = getTextFromMap(header1, list);
-        String str2 = getTextFromMap(header2, list);
-        System.out.println(str1);
-        System.out.println("--");
-        System.out.println(str2);
+    //Calculate the magnitude between each vector so we can apply the formula
+    public static double calculateMagnitude(HashMap<String, Integer> vector) {
+        double magnitude = 0.0;
+        for (Integer value : vector.values()) {
+            magnitude += value * value;
+        }
+        magnitude = Math.sqrt(magnitude);
+        return magnitude;
+    }
 
-        double similarity = getCosineSimilarity(str1, str2);
-        System.out.println("Cosine similarity: " + similarity);
+    public static void calculate(String header1, String header2, ArrayList<HashMap<String, List<String>>> myList) {
+
+        // Get the lists of strings for the two headers
+        List<String> map1 = myList.get(0).get(header1);
+        List<String> map2 = myList.get(1).get(header2);
+
+        if (map1 == null || map2 == null) {
+            throw new IllegalArgumentException("Header not found in one of the maps.");
+        }
+
+        // Convert the lists to vectors
+        HashMap<String, Integer> vector1 = convertListToVector(map1);
+        HashMap<String, Integer> vector2 = convertListToVector(map2);
+
+        // Calculate the dot product
+        double dotProduct = 0.0;
+        for (Map.Entry<String, Integer> entry : vector1.entrySet()) {
+            String key = entry.getKey();
+            Integer value1 = entry.getValue();
+            Integer value2 = vector2.get(key);
+            if (value2 != null) {
+                dotProduct += value1 * value2;
+            }
+        }
+
+        // Calculate the magnitude of both vectors
+        double magnitude1 = calculateMagnitude(vector1);
+        double magnitude2 = calculateMagnitude(vector2);
+
+        // Calculate the cosine similarity
+        double cosineSimilarity = dotProduct / (magnitude1 * magnitude2);
+
+        System.out.println("Str1= " + map1);
+        System.out.println("Str2= " + map2);
+        System.out.println("Cosine Similarity: " + cosineSimilarity);
     }
 }
-
-    /*This method takes two arrays of double values as input and returns a double value between 0 and 1, which represents their cosine similarity.
-     The method first checks if the two arrays have the same length, as the cosine similarity can only be calculated between vectors of equal length. If the lengths are different, an IllegalArgumentException is thrown.
-
-The method then iterates over the elements in the two arrays and computes the dot product of the two vectors, as well as their individual norms.
- The dot product is the sum of the products of the corresponding elements in the two arrays, and the norm of a vector is the square root of the sum of the squares of its elements.
-
-Finally, the method computes the denominator of the cosine similarity formula, which is the product of the norms of the two vectors.
- If the denominator is zero, the method returns 0, as the cosine similarity between two zero vectors is undefined.
- Otherwise, the method returns the dot product divided by the denominator, which gives a value between 0 and 1,
-  where 1 represents two identical vectors and 0 represents two completely different vectors.*/
 

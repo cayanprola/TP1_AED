@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 import static org.junit.Assert.*;
 
-public class TestJaccard {
+public class JaccardTest {
 
     @Test
     public void testCalculate() {
@@ -35,6 +35,29 @@ public class TestJaccard {
         Jaccard.calculate(header1, header2, myList);
 
         //Expected intersection of {"a", "c"} and union of {"a", "b", "c", "d"} leads to 2/4 = 0.5 Jaccard similarity
-        assertEquals(0.5, (double) Jaccard.intersection.size() / Jaccard.union.size(), 0.001);
+        List<String> expectedIntersection = new ArrayList<>();
+        expectedIntersection.add("a");
+        expectedIntersection.add("c");
+
+        List<String> expectedUnion = new ArrayList<>();
+        expectedUnion.add("a");
+        expectedUnion.add("b");
+        expectedUnion.add("c");
+        expectedUnion.add("d");
+
+        // Check the intersection
+        Set<String> intersection = new HashSet<>(map1.get(header1));
+        intersection.retainAll(map2.get(header2));
+        assertEquals(expectedIntersection, new ArrayList<>(intersection));
+
+        // Check the union
+        Set<String> union = new HashSet<>(map1.get(header1));
+        union.addAll(map2.get(header2));
+        assertEquals(expectedUnion, new ArrayList<>(union));
+
+        // Check the Jaccard similarity
+        double expectedSimilarity = 0.5;
+        double actualSimilarity = (double) intersection.size() / union.size();
+        assertEquals(expectedSimilarity, actualSimilarity, 0.001);
     }
 }
