@@ -23,7 +23,7 @@ public class Leitor<K, V> extends HashMap<K, V> {
         HashMap<String, List<String>> map = new HashMap<>();
         boolean start = true;
         int headersAmount = 0;
-        ArrayList<String> haeders = new ArrayList<>();
+        ArrayList<String> headers = new ArrayList<>();
 
         Scanner myReader = new Scanner(filename);
         while (myReader.hasNextLine()) {
@@ -34,9 +34,9 @@ public class Leitor<K, V> extends HashMap<K, V> {
                 if (start) {
                     map.put(value, new ArrayList<>());
                     headersAmount = map.keySet().size();
-                    haeders.add(value);
+                    headers.add(value);
                 } else {
-                    String key = haeders.get(cont);
+                    String key = headers.get(cont);
                     List<String> map_values = map.get(key);
                     map_values.add(value);
                     map.put(key, map_values);
